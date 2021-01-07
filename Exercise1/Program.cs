@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Exercise1
 {
@@ -14,6 +13,8 @@ namespace Exercise1
             q.Enqueue(new Node<int>(4));
             q.Enqueue(new Node<int>(5));
             q.Enqueue(new Node<int>(0));
+            Console.WriteLine(q.Peek());
+            Console.WriteLine(q.Peek());
             Console.WriteLine(q);
             foreach (int node in q)
             {
@@ -27,7 +28,6 @@ namespace Exercise1
             {
                 Console.WriteLine(node);
             }
-            Console.ReadKey();
         }
     }
 }

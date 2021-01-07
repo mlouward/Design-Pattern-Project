@@ -7,15 +7,21 @@ namespace Exercise3
     public class Square
     {
         public string Name { get; set; }
+        public int Index { get; set; }
         public Square Next { get; set; }
-        public Square() { }
-        public Square(string name)
+
+        public Square()
         {
-            Name = name;
         }
+
+        public Square(int index)
+        {
+            Index = index;
+        }
+
         public override string ToString()
         {
-            return $"{Name}";
+            return Index.ToString();
         }
     }
 }

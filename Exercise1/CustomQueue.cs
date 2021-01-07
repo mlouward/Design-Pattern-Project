@@ -17,6 +17,7 @@ namespace Exercise1
             Start = null;
             Length = 0;
         }
+
         public CustomQueue(Node<T> start)
         {
             Start = start;
@@ -34,6 +35,7 @@ namespace Exercise1
             }
             Length++;
         }
+
         public Node<T> Dequeue()
         {
             Node<T> res;
@@ -62,6 +64,17 @@ namespace Exercise1
             Length--;
             return res;
         }
+
+        public Node<T> Peek()
+        {
+            Node<T> tmp = Start;
+            while (tmp.Next != null)
+            {
+                tmp = tmp.Next;
+            }
+            return tmp;
+        }
+
         public override string ToString()
         {
             var s = "";
@@ -86,35 +99,11 @@ namespace Exercise1
                 yield return current.Content;
                 current = current.Next;
             }
-            //return new QueueEnumerator<T>(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
-            //return new QueueEnumerator<T>(this);
-        }
-        private class QueueEnumerator<T> : IEnumerator<T>
-        {
-            public QueueEnumerator(CustomQueue<T> q)
-            {
-
-            }
-            public bool MoveNext()
-            {
-                throw new NotImplementedException();
-            }
-            public T Current => throw new NotImplementedException();
-
-            object IEnumerator.Current => throw new NotImplementedException();
-
-
-            public void Reset()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Dispose() { }
         }
     }
 }
