@@ -88,10 +88,6 @@ namespace Exercise3
 
                 // Actions depending on final Square of player
                 Console.WriteLine($"{player.Name}: Position: " + player.Position.Index);
-                if (player.Position.Index == Board.GOTOJAIL)
-                {
-                    player.MoveToJail();
-                }
 
                 // determine if player is out of the game
                 if (player.Balance == 0)

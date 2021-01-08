@@ -28,13 +28,13 @@ namespace Exercise2
             return input.Select(x => new Tuple<string, int>(x, 1)).ToList();
         }
 
-        public Tuple<string, int> Reduce(List<Tuple<string, int>> mappedInput)
+        public Tuple<string, int> Reduce(List<Tuple<string, int>> mappedOutput)
         {
             Dictionary<string, int> reducedList = new Dictionary<string, int>();
             Tuple<string, List<int>> intermediaryTuple = new Tuple<string, List<int>>(
-                mappedInput.First().Item1, new List<int>());
+                mappedOutput.First().Item1, new List<int>());
 
-            intermediaryTuple.Item2.AddRange(mappedInput.Select(_ => 1));
+            intermediaryTuple.Item2.AddRange(mappedOutput.Select(_ => 1));
 
             Tuple<string, int> reduceResult = new Tuple<string, int>(
                 intermediaryTuple.Item1, intermediaryTuple.Item2.Sum());
