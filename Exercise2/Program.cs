@@ -8,22 +8,13 @@ namespace Exercise2
         private static void Main(string[] args)
         {
             Node n = new Node();
-            List<Dictionary<string, int>> list = new List<Dictionary<string, int>>();
+            List<Tuple<string, int>> mapResult;
 
-            list.Add(n.Map("bear the pretty"));
-            list.Add(new Dictionary<string, int>() { { "               ", 0 } });
-            list.Add(n.Map("the prettu bear"));
-            list.Add(new Dictionary<string, int>() { { "               ", 0 } });
-            list.Add(n.Map("the"));
-            list.Add(new Dictionary<string, int>() { { "               ", 0 } });
+            mapResult = n.Map("Dear Bear River");
+            Tuple<string, int> res = n.Reduce(mapResult);
+            mapResult = n.Map("Car Car River");
+            mapResult = n.Map("Dear Car Bear");
             // Send similar keys to same node to reduce
-            foreach (var item in list)
-            {
-                foreach (var item2 in item)
-                {
-                    Console.WriteLine(item2.Key + " " + item2.Value);
-                }
-            }
         }
     }
 }

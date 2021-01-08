@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Exercise2
@@ -10,41 +12,24 @@ namespace Exercise2
         {
         }
 
-        public Dictionary<string, int> Map(string arg)
+        public List<Tuple<string, int>> Map(string arg)
         {
             string[] input = arg.Split(" ");
-            return input.Select(x => new KeyValuePair<string, int>(x, 1)).ToDictionary(x => x.Key, x => x.Value);
+            return input.Select(x => new Tuple<string, int>(x, 1)).ToList();
         }
 
-        public Dictionary<string, int> Reduce(List<Dictionary<string, int>> mappedInput)
+        public Tuple<string, int> Reduce(List<Tuple<string, int>> mappedInput)
         {
-            Dictionary<string, List<int>> shuffledList = new Dictionary<string, List<int>>();
             Dictionary<string, int> reducedList = new Dictionary<string, int>();
+            Tuple<string, List<int>> intermediaryTuple = new Tuple<string, List<int>>(
+                mappedInput.First().Item1, new List<int>() { 1 });
 
-            foreach (var dict in mappedInput)
-            {
-                foreach (KeyValuePair<string, int> keyValuePair in dict)
-                {
-                    if (shuffledList.ContainsKey(keyValuePair.Key))
-                        shuffledList[keyValuePair.Key].Add(1);
-                    else
-                        shuffledList.Add(keyValuePair.Key, new List<int>() { 1 });
-                }
-            }
+            intermediaryTuple.Item2.AddRange(mappedInput.Select(_ => 1));
 
-            foreach (string item in shuffledList.Keys)
-            {
-                if (reducedList.Keys.Contains(item))
-                {
-                    reducedList[item]++;
-                }
-                else
-                {
-                    reducedList.Add(item, 1);
-                }
-            }
+            Tuple<string, int> reduceResult = new Tuple<string, int>(
+                intermediaryTuple.Item1, intermediaryTuple.Item2.Sum());
 
-            return reducedList;
+            return reduceResult;
         }
     }
 }
