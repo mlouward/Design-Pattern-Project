@@ -42,20 +42,13 @@ namespace Exercise2
         {
             foreach (string sentence in Input)
             {
-                MapOutput.Add(MappingNodes[Input.FindIndex(x => x == sentence)].Map(sentence));
-            }
-        }
-
-        private static void ReduceThreading()
-        {
-            foreach (var item in MapOutput)
-            {
-                SendToReducingNode(item);
+                SendToReducingNode(MappingNodes[Input.FindIndex(x => x == sentence)].Map(sentence));
             }
         }
 
         private static void Main(string[] args)
         {
+            // test.txt in bin/debug/netcore folder
             using (StreamReader sr = new StreamReader("test.txt"))
             {
                 while (!sr.EndOfStream)
@@ -64,10 +57,11 @@ namespace Exercise2
                 }
             }
 
-            //Input = new List<string>() {
-            //    "Dear Bear River",
-            //    "Car Car River",
-            //    "Dear Car Bear",
+            //Simple input example
+            // Input = new List<string>() {
+            //     "Dear Bear River",
+            //     "Car Car River",
+            //     "Dear Car Bear",
             //};
 
             // Populate nodes dictionaries
@@ -84,41 +78,31 @@ namespace Exercise2
             }
 
             List<Node> allNodes = ReducingNodes.Values.ToList();
+            ManualResetEvent syncEvent = new ManualResetEvent(false);
 
             // Tell node it started receiving information
             Thread startThread = new Thread(() => { foreach (Node node in allNodes) { NodeController.Send("start", node); } });
 
-            // mapping and reducing threads
+            // mapping thread, also sends data to the reducing nodes
             Thread mappingThread = new Thread(MapThreading);
-            Thread reduceThread = new Thread(ReduceThreading);
 
-            // Tell node it stopped receiving information
+            // Tell node it stopped receiving information (it should then start processing it)
             Thread endThread = new Thread(() => { foreach (Node node in allNodes) { NodeController.Send("end", node); } });
-
-            Stopwatch s = new Stopwatch();
-            s.Start();
 
             startThread.Start();
 
             mappingThread.Start();
-            // Wait for mapping to end then start reduce
+            // Wait for mapping to end then start sending "end" message
             while (mappingThread.IsAlive) ;
 
-            reduceThread.Start();
-            // Wait to send everything before sending "end" to the nodes
-            while (reduceThread.IsAlive) ;
-
             endThread.Start();
-            while (endThread.IsAlive) ;
+
+            // Un-threaded implementation is faster (average 25ms vs 40 for threading with random input text 1000 lines)
 
             //foreach (Node node in allNodes) { NodeController.Send("start", node); }
             //MapThreading();
-            //ReduceThreading();
+            ////ReduceThreading();
             //foreach (Node node in allNodes) { NodeController.Send("end", node); }
-
-            s.Stop();
-
-            Console.WriteLine(s.ElapsedMilliseconds + "ms");
         }
     }
 }
