@@ -23,7 +23,7 @@ namespace Exercise2
 
         public List<Tuple<string, int>> Map(string arg)
         {
-            string[] input = arg.Split(" ");
+            string[] input = arg.Split(' ');
             return input.Select(x => new Tuple<string, int>(x, 1)).ToList();
         }
 
