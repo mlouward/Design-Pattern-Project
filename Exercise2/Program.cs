@@ -16,6 +16,8 @@ namespace Exercise2
 
         private static Dictionary<string, Node> ReducingNodes { get; set; } = new Dictionary<string, Node>();
 
+        private static List<List<Tuple<string, int>>> MapOutput { get; set; } = new List<List<Tuple<string, int>>>();
+
         private static List<string> Input { get; set; } = new List<string>();
 
         /// <summary>
@@ -69,11 +71,15 @@ namespace Exercise2
             {
                 foreach (string word in Input[i].Split(' '))
                 {
-                    ReducingNodes.TryAdd(word.ToLower(), new Node());
+                    if (!ReducingNodes.ContainsKey(word.ToLower()))
+                    {
+                        ReducingNodes.Add(word.ToLower(), new Node());
+                    }
                 }
             }
 
             List<Node> allNodes = ReducingNodes.Values.ToList();
+            ManualResetEvent syncEvent = new ManualResetEvent(false);
 
             // Tell node it started receiving information
             Thread startThread = new Thread(() => { foreach (Node node in allNodes) { NodeController.Send("start", node); } });
