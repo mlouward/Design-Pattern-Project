@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Exercise2
+﻿namespace Exercise2
 {
     public class NodeController
     {

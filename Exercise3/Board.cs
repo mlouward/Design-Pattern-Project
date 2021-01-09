@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Exercise3
+﻿namespace Exercise3
 {
     internal class Board
     {
