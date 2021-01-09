@@ -16,8 +16,6 @@ namespace Exercise2
 
         private static Dictionary<string, Node> ReducingNodes { get; set; } = new Dictionary<string, Node>();
 
-        private static List<List<Tuple<string, int>>> MapOutput { get; set; } = new List<List<Tuple<string, int>>>();
-
         private static List<string> Input { get; set; } = new List<string>();
 
         /// <summary>
