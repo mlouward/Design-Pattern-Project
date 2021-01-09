@@ -79,7 +79,6 @@ namespace Exercise2
             }
 
             List<Node> allNodes = ReducingNodes.Values.ToList();
-            ManualResetEvent syncEvent = new ManualResetEvent(false);
 
             // Tell node it started receiving information
             Thread startThread = new Thread(() => { foreach (Node node in allNodes) { NodeController.Send("start", node); } });
